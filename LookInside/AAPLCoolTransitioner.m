@@ -24,7 +24,12 @@
 
 - (UIPresentationController *)presentationControllerForPresentedViewController:(UIViewController *)presented presentingViewController:(UIViewController *)presenting sourceViewController:(UIViewController *)source
 {
-    return [[AAPLCoolPresentationController alloc] initWithPresentingViewController:presenting presentedViewController:presented];
+    
+    AAPLCoolPresentationController *coolPC = [[AAPLCoolPresentationController alloc] initWithPresentingViewController:presenting presentedViewController:presented referenceImageView:_referenceImageView];
+    
+    
+//    return [[AAPLCoolPresentationController alloc] initWithPresentingViewController:presenting presentedViewController:presented];
+    return coolPC;
 }
 
 - (AAPLCoolAnimatedTransitioning *)animationController
@@ -63,7 +68,7 @@
 
 - (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext
 {
-    return 0.7;
+    return 1.0;
 }
 
 - (void)animateTransition:(id <UIViewControllerContextTransitioning>)transitionContext
@@ -75,72 +80,39 @@
     
     UIView *containerView = [transitionContext containerView];
     
+    
     BOOL isPresentation = [self isPresentation];
     
-    
-    
-    //
-    // Create a temporary view for the zoom in transition and set the initial frame based
-    // on the reference image view
-    UIImageView *transitionView = [[UIImageView alloc] initWithImage:self.referenceImageView.image];
-    transitionView.contentMode = UIViewContentModeScaleAspectFill;
-    transitionView.clipsToBounds = YES;
+    if(isPresentation)
+    {
+        [containerView addSubview:toView];
+    }
 
-    
-    [containerView addSubview:transitionView];
-    
 
-//
-//    CGRect transitionViewFinalFrame = [self.referenceImageView.image tgr_aspectFitRectForSize:finalFrame.size];
+    UIViewController *animatingVC = isPresentation? toVC : fromVC;
+    UIView *animatingView = [animatingVC view];
     
-    //
-//    AA *fromViewController = (AAPLCoolPresentationController *)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-//    
-    CGRect transitionFinalFramePresent = toView.bounds;
-    CGRect transitionFinalFrameDismiss = [transitionContext.containerView convertRect:self.referenceImageView.bounds
-                                                                             fromView:self.referenceImageView];;
-    
-    [transitionView setFrame:isPresentation ? transitionFinalFrameDismiss : transitionFinalFramePresent];
+    [animatingView setFrame:[transitionContext finalFrameForViewController:animatingVC]];
 
-//    UIViewController *animatingVC = isPresentation? toVC : fromVC;
-//    UIView *animatingView = [animatingVC view];
-    
-//    [animatingView setFrame:[transitionContext finalFrameForViewController:animatingVC]];
-    [toView setFrame:[transitionContext finalFrameForViewController:toVC]];
-    
-//    CGAffineTransform presentedTransform = CGAffineTransformIdentity;
-//    CGAffineTransform dismissedTransform = CGAffineTransformConcat(CGAffineTransformMakeScale(0.001, 0.001), CGAffineTransformMakeRotation(8 * M_PI));
     
     CGFloat presentedTransform = 1;
     CGFloat dismissedTransform = 0;
+
     
-//    [animatingView setTransform:isPresentation ? dismissedTransform : presentedTransform];
-    
-//    [animatingView setAlpha:isPresentation ? dismissedTransform : presentedTransform];
-    
-    if(!isPresentation)
-    {
-        [fromView removeFromSuperview];
-        
-    }
+    [animatingView setAlpha:isPresentation ? dismissedTransform : presentedTransform];
     
     [UIView animateWithDuration:[self transitionDuration:transitionContext]
                           delay:0
-         usingSpringWithDamping:0.7
+         usingSpringWithDamping:0.8
           initialSpringVelocity:0.0
                         options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState
                      animations:^{
-//                         [animatingView setTransform:isPresentation ? presentedTransform : dismissedTransform];
-//                         [animatingView setAlpha:isPresentation ? presentedTransform : dismissedTransform];
-                         
-                         [transitionView setFrame:isPresentation ? transitionFinalFramePresent : transitionFinalFrameDismiss];
-                         
+                         [animatingView setAlpha:isPresentation ? presentedTransform : dismissedTransform];
                      }
                      completion:^(BOOL finished){
-                         if(isPresentation)
+                         if(![self isPresentation])
                          {
-                             [containerView addSubview:toView];
-                             [transitionView removeFromSuperview];
+                             [fromView removeFromSuperview];
                          }
                          
                          [transitionContext completeTransition:YES];

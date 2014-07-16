@@ -22,6 +22,7 @@
         
         [[self contentView] addSubview:self.imageView];
         [[self contentView] setClipsToBounds:YES];
+
     }
     return self;
 }

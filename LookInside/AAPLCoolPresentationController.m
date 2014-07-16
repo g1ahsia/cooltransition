@@ -12,26 +12,13 @@
 
 @implementation AAPLCoolPresentationController
 
-- (instancetype)initWithPresentingViewController:(UIViewController *)presentingViewController presentedViewController:(UIViewController *)presentedViewController
+- (instancetype)initWithPresentingViewController:(UIViewController *)presentingViewController presentedViewController:(UIViewController *)presentedViewController referenceImageView:(UIImageView *)referenceImageView
 {
     self = [super initWithPresentingViewController:presentingViewController presentedViewController:presentedViewController];
     if(self)
     {
-        dimmingView = [[UIView alloc] init];
-        [dimmingView setBackgroundColor:[[UIColor purpleColor] colorWithAlphaComponent:0.4]];
+        _referenceImageView = referenceImageView;
         
-        bigFlowerImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"BigFlower"]];
-        carlImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Carl"]];
-        [carlImageView setFrame:CGRectMake(0,0,500,245)];
-        
-        jaguarPrintImageH = [[UIImage imageNamed:@"JaguarH"] resizableImageWithCapInsets:UIEdgeInsetsZero resizingMode:UIImageResizingModeTile];
-        jaguarPrintImageV = [[UIImage imageNamed:@"JaguarV"] resizableImageWithCapInsets:UIEdgeInsetsZero resizingMode:UIImageResizingModeTile];
-
-        topJaguarPrintImageView = [[UIImageView alloc] initWithImage:jaguarPrintImageH];
-        bottomJaguarPrintImageView = [[UIImageView alloc] initWithImage:jaguarPrintImageH];
-
-        leftJaguarPrintImageView = [[UIImageView alloc] initWithImage:jaguarPrintImageV];
-        rightJaguarPrintImageView = [[UIImageView alloc] initWithImage:jaguarPrintImageV];
     }
     return self;
 }
@@ -41,7 +28,7 @@
     CGRect containerBounds = [[self containerView] bounds];
     
     CGRect presentedViewFrame = CGRectZero;
-    presentedViewFrame.size = CGSizeMake(300, 500);
+    presentedViewFrame.size = CGSizeMake(240, 400);
     presentedViewFrame.origin = CGPointMake(containerBounds.size.width / 2.0, containerBounds.size.height / 2.0);
     presentedViewFrame.origin.x -= presentedViewFrame.size.width / 2.0;
     presentedViewFrame.origin.y -= presentedViewFrame.size.height / 2.0;
@@ -54,98 +41,69 @@
     NSLog(@"Presentation transition will begin");
     [super presentationTransitionWillBegin];
     
-    [self addViewsToDimmingView];
+    transitionImageView = [[UIImageView alloc] initWithImage:_referenceImageView.image];
+    transitionImageView.contentMode = UIViewContentModeScaleAspectFill;
+    transitionImageView.clipsToBounds = YES;
+    
 
-    [dimmingView setAlpha:0.0];
+    blurView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
+
+    [transitionImageView setFrame:[[self containerView] convertRect:self.referenceImageView.bounds
+                                                           fromView:self.referenceImageView]];
+    
+    [blurView setFrame:transitionImageView.bounds];
+    [blurView setAlpha:0];
+    
+    [self addViewsToDimmingView];
+    
     
     [[[self presentedViewController] transitionCoordinator] animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-        [dimmingView setAlpha:1.0];
+        
+        [transitionImageView setFrame:[[self containerView] bounds]];
+        [blurView setFrame:[[self containerView] bounds]];
+        [blurView setAlpha:1];
+        
     } completion:nil];
 
-    [self moveJaguarPrintToPresentedPosition:NO];
-    
-    [UIView animateWithDuration:5.0 animations:^{
-        [self moveJaguarPrintToPresentedPosition:YES];
-    }];
 }
 
 - (void)containerViewWillLayoutSubviews
 {
     
     NSLog(@"container view will layout subviews");
-    [dimmingView setFrame:[[self containerView] bounds]];
+
 }
 
 - (void)containerViewDidLayoutSubviews
 {
     NSLog(@"container view did layout subviews");
-    CGPoint bigFlowerCenter = [dimmingView frame].origin;
-    bigFlowerCenter.x += [[bigFlowerImageView image] size].width / 4.0;
-    bigFlowerCenter.y += [[bigFlowerImageView image] size].height / 4.0;
-    
-    [bigFlowerImageView setCenter:bigFlowerCenter];
-    
-    CGRect carlFrame = [carlImageView frame];
-    carlFrame.origin.y = [dimmingView bounds].size.height - carlFrame.size.height;
-    
-    [carlImageView setFrame:carlFrame];
 }
 
 - (void)dismissalTransitionWillBegin
 {
     NSLog(@"dismissal transition will begin");
     [super dismissalTransitionWillBegin];
+    
+    _referenceImageView.alpha = 0;
 
     [[[self presentedViewController] transitionCoordinator] animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-        [dimmingView setAlpha:0.0];
-} completion:nil];
+        [transitionImageView setFrame:[[self containerView] convertRect:self.referenceImageView.bounds
+                                                     fromView:self.referenceImageView]];
+        blurView.alpha = 0;
+//        [blurView setFrame:[[self containerView] convertRect:self.referenceImageView.bounds
+//                                                               fromView:self.referenceImageView]];
+    } completion:^(id<UIViewControllerTransitionCoordinatorContext> context){
+        _referenceImageView.alpha = 1;
+        
+    }];
 }
 
 - (void)addViewsToDimmingView
 {
-    [dimmingView addSubview:bigFlowerImageView];
-    [dimmingView addSubview:carlImageView];
-
-    [dimmingView addSubview:topJaguarPrintImageView];
-    [dimmingView addSubview:bottomJaguarPrintImageView];
-
-    [dimmingView addSubview:leftJaguarPrintImageView];
-    [dimmingView addSubview:rightJaguarPrintImageView];
+    [[self containerView] addSubview:transitionImageView];
+    [transitionImageView addSubview:blurView];
     
-//    [[self containerView] addSubview:dimmingView];
-}
-
-- (void)moveJaguarPrintToPresentedPosition:(BOOL)presentedPosition
-{
-    CGSize horizontalJaguarSize = [jaguarPrintImageH size];
-    CGSize verticalJaguarSize = [jaguarPrintImageV size];
-    CGRect frameOfView = [self frameOfPresentedViewInContainerView];
-    CGRect containerFrame = [[self containerView] frame];
-
-    CGRect topFrame, bottomFrame, leftFrame, rightFrame;
-    topFrame.size.height = bottomFrame.size.height = horizontalJaguarSize.height;
-    topFrame.size.width = bottomFrame.size.width = frameOfView.size.width;
-
-    leftFrame.size.width = rightFrame.size.width = verticalJaguarSize.width;
-    leftFrame.size.height = rightFrame.size.height = frameOfView.size.height;
-
-    topFrame.origin.x = frameOfView.origin.x;
-    bottomFrame.origin.x = frameOfView.origin.x;
-
-    leftFrame.origin.y = frameOfView.origin.y;
-    rightFrame.origin.y = frameOfView.origin.y;
-
-    CGRect frameToAlignAround = presentedPosition ? frameOfView : containerFrame;
-
-    topFrame.origin.y = CGRectGetMinY(frameToAlignAround) - horizontalJaguarSize.height;
-    bottomFrame.origin.y = CGRectGetMaxY(frameToAlignAround);
-    leftFrame.origin.x = CGRectGetMinX(frameToAlignAround) - verticalJaguarSize.width;
-    rightFrame.origin.x = CGRectGetMaxX(frameToAlignAround);
     
-    [topJaguarPrintImageView setFrame:topFrame];
-    [bottomJaguarPrintImageView setFrame:bottomFrame];
-    [leftJaguarPrintImageView setFrame:leftFrame];
-    [rightJaguarPrintImageView setFrame:rightFrame];
 }
 
 @end

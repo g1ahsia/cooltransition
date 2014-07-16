@@ -12,19 +12,13 @@
 
 @interface AAPLCoolPresentationController : UIPresentationController
 {
-    UIImageView *bigFlowerImageView;
-    UIImageView *carlImageView;
-
-    UIImage *jaguarPrintImageH;
-    UIImage *jaguarPrintImageV;
-
-    UIImageView *topJaguarPrintImageView;
-    UIImageView *bottomJaguarPrintImageView;
-
-    UIImageView *leftJaguarPrintImageView;
-    UIImageView *rightJaguarPrintImageView;
     
-    UIView *dimmingView;
+    UIImageView *transitionImageView;
+    UIVisualEffectView *blurView;
 }
+
+@property (weak, nonatomic, readonly) UIImageView *referenceImageView;
+
+- (instancetype)initWithPresentingViewController:(UIViewController *)presentingViewController presentedViewController:(UIViewController *)presentedViewController referenceImageView:(UIImageView *)referenceImageView;
 
 @end
