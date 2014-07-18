@@ -17,5 +17,7 @@
 
 @property (nonatomic) UIImage *image;
 @property (nonatomic) UIImageView *imageView;
+@property (nonatomic, readwrite) CGFloat cellSize;
+@property (nonatomic, assign, readwrite) CGRect imageScale;
 
 @end

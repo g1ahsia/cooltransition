@@ -16,7 +16,7 @@
 #import "AAPLCoolTransitioner.h"
 
 #define kNumberOfViews (37)
-#define kViewsWide (5)
+#define kViewsWide (2)
 #define kViewMargin (2.0)
 #define kCellReuseIdentifier @"CellReuseIdentifier"
 
@@ -69,7 +69,7 @@
     
     if([self presentationShouldBeAwesome])
     {
-        transitioningDelegate = [[AAPLCoolTransitioningDelegate alloc] initWithReferenceImageView:cell.imageView];\
+        transitioningDelegate = [[AAPLCoolTransitioningDelegate alloc] initWithReferenceImageView:cell.imageView];
     }
     else
     {
@@ -84,6 +84,31 @@
     
     [self presentViewController:overlay animated:YES completion:NULL];
 }
+
+- (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"did highlight");
+    AAPLPhotoCollectionViewCell *cell = (AAPLPhotoCollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
+    [UIView animateWithDuration:0.4f animations:^{
+        //        cell.imageScale = CGRectMake(-0.05, -0.05, 1.1, 1.1);
+        cell.imageScale = CGRectMake(0, 0, 1, 1);
+    }
+                     completion:^(BOOL finished){
+                         
+                     }];
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"did unhighlight");
+    AAPLPhotoCollectionViewCell *cell = (AAPLPhotoCollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
+    [UIView animateWithDuration:0.4f animations:^{
+        //        cell.imageScale = CGRectMake(-0.05, -0.05, 1.1, 1.1);
+        cell.imageScale = CGRectMake(0.05, 0.05, 0.9, 0.9);
+    }
+                     completion:^(BOOL finished){
+                         
+                     }];
+}
+
 
 - (BOOL)presentationShouldBeAwesome
 {

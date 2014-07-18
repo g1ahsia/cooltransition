@@ -43,6 +43,7 @@
     
     transitionImageView = [[UIImageView alloc] initWithImage:_referenceImageView.image];
     transitionImageView.contentMode = UIViewContentModeScaleAspectFill;
+    transitionImageView.layer.contentsRect = CGRectMake(0.05, 0.05, 0.9, 0.9);
     transitionImageView.clipsToBounds = YES;
     
 
