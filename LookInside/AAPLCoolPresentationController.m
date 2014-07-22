@@ -103,8 +103,6 @@
 {
     [[self containerView] addSubview:transitionImageView];
     [transitionImageView addSubview:blurView];
-    
-    
 }
 
 @end

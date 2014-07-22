@@ -22,7 +22,7 @@
     
     if([source isKindOfClass:[AAPLRootViewController class]] && [(AAPLRootViewController *)source presentationShouldBeAwesome])
     {
-        presentationControllerClass = [AAPLCoolPresentationController class];
+//        presentationControllerClass = [AAPLCoolPresentationController class];
     }
     else
     {

@@ -13,12 +13,6 @@
 @interface AAPLCoolAnimatedTransitioning : NSObject <UIViewControllerAnimatedTransitioning>
 @property (nonatomic) BOOL isPresentation;
 
-@property (weak, nonatomic, readonly) UIImageView *referenceImageView;
-
-// Initializes the receiver with the specified reference image view.
-- (id)initWithReferenceImageView:(UIImageView *)referenceImageView;
-
-
 @end
 
 @interface AAPLCoolTransitioningDelegate : NSObject <UIViewControllerTransitioningDelegate>

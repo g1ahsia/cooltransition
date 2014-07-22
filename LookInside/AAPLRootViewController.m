@@ -78,9 +78,9 @@
 
     [overlay setTransitioningDelegate:transitioningDelegate];
 
-    AAPLPhotoCollectionViewCell *selectedCell = (AAPLPhotoCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+//    AAPLPhotoCollectionViewCell *selectedCell = (AAPLPhotoCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
     
-    [overlay setPhotoView:selectedCell];
+//    [overlay setPhotoView:selectedCell];
     
     [self presentViewController:overlay animated:YES completion:NULL];
 }

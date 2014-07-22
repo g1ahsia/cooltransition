@@ -24,17 +24,13 @@
 
 - (UIPresentationController *)presentationControllerForPresentedViewController:(UIViewController *)presented presentingViewController:(UIViewController *)presenting sourceViewController:(UIViewController *)source
 {
-    
     AAPLCoolPresentationController *coolPC = [[AAPLCoolPresentationController alloc] initWithPresentingViewController:presenting presentedViewController:presented referenceImageView:_referenceImageView];
-    
-    
-//    return [[AAPLCoolPresentationController alloc] initWithPresentingViewController:presenting presentedViewController:presented];
     return coolPC;
 }
 
 - (AAPLCoolAnimatedTransitioning *)animationController
 {
-    AAPLCoolAnimatedTransitioning *animationController = [[AAPLCoolAnimatedTransitioning alloc] initWithReferenceImageView:_referenceImageView];
+    AAPLCoolAnimatedTransitioning *animationController = [[AAPLCoolAnimatedTransitioning alloc] init];
     return animationController;
 }
 
@@ -58,13 +54,6 @@
 
 @implementation AAPLCoolAnimatedTransitioning
 
-- (id)initWithReferenceImageView:(UIImageView *)referenceImageView {
-    if (self = [super init]) {
-        NSAssert(referenceImageView.contentMode == UIViewContentModeScaleAspectFill, @"*** referenceImageView must have a UIViewContentModeScaleAspectFill contentMode!");
-        _referenceImageView = referenceImageView;
-    }
-    return self;
-}
 
 - (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext
 {
