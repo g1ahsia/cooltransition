@@ -20,8 +20,12 @@
 
 @property (weak, nonatomic, readonly) UIImageView *referenceImageView;
 
+@property (weak, nonatomic, readonly) UIImageView *referenceImageView2;
+
 // Initializes the receiver with the specified reference image view.
-- (id)initWithReferenceImageView:(UIImageView *)referenceImageView;
+- (id)initWithReferenceImageView:(UIImageView *)referenceImageView imageView2:(UIImageView *)referenceImageView2;
+
+
 
 
 @end

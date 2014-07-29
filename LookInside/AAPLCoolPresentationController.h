@@ -14,11 +14,14 @@
 {
     
     UIImageView *transitionImageView;
+    UIImageView *transitionImageView2;
     UIVisualEffectView *blurView;
 }
 
 @property (weak, nonatomic, readonly) UIImageView *referenceImageView;
 
-- (instancetype)initWithPresentingViewController:(UIViewController *)presentingViewController presentedViewController:(UIViewController *)presentedViewController referenceImageView:(UIImageView *)referenceImageView;
+@property (weak, nonatomic, readonly) UIImageView *referenceImageView2;
+
+- (instancetype)initWithPresentingViewController:(UIViewController *)presentingViewController presentedViewController:(UIViewController *)presentedViewController referenceImageView:(UIImageView *)referenceImageView imageView2:(UIImageView *)referenceImageView2;
 
 @end

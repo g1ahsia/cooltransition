@@ -12,11 +12,11 @@
 #import "AAPLPhotoCollectionViewCell.h"
 #import "AAPLOverlayViewController.h"
 
-#import "AAPLOverlayTransitioner.h"
+//#import "AAPLOverlayTransitioner.h"
 #import "AAPLCoolTransitioner.h"
 
 #define kNumberOfViews (37)
-#define kViewsWide (2)
+#define kViewsWide (1)
 #define kViewMargin (2.0)
 #define kCellReuseIdentifier @"CellReuseIdentifier"
 
@@ -65,16 +65,18 @@
 {
     AAPLPhotoCollectionViewCell *cell = (AAPLPhotoCollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
     
+        AAPLPhotoCollectionViewCell *cell2 = (AAPLPhotoCollectionViewCell*)[collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row-1 inSection:0]];
+    
     AAPLOverlayViewController *overlay = [[AAPLOverlayViewController alloc] init];
     
-    if([self presentationShouldBeAwesome])
-    {
-        transitioningDelegate = [[AAPLCoolTransitioningDelegate alloc] initWithReferenceImageView:cell.imageView];
-    }
-    else
-    {
-        transitioningDelegate = [[AAPLOverlayTransitioningDelegate alloc] init];
-    }
+//    if([self presentationShouldBeAwesome])
+//    {
+        transitioningDelegate = [[AAPLCoolTransitioningDelegate alloc] initWithReferenceImageView:cell.imageView imageView2:cell2.imageView];
+//    }
+//    else
+//    {
+//        transitioningDelegate = [[AAPLOverlayTransitioningDelegate alloc] init];
+//    }
 
     [overlay setTransitioningDelegate:transitioningDelegate];
 
@@ -86,7 +88,6 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"did highlight");
     AAPLPhotoCollectionViewCell *cell = (AAPLPhotoCollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
     [UIView animateWithDuration:0.4f animations:^{
         //        cell.imageScale = CGRectMake(-0.05, -0.05, 1.1, 1.1);
@@ -98,7 +99,6 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"did unhighlight");
     AAPLPhotoCollectionViewCell *cell = (AAPLPhotoCollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
     [UIView animateWithDuration:0.4f animations:^{
         //        cell.imageScale = CGRectMake(-0.05, -0.05, 1.1, 1.1);

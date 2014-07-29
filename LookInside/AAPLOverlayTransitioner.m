@@ -16,21 +16,21 @@
 
 @implementation AAPLOverlayTransitioningDelegate
 
-- (UIPresentationController *)presentationControllerForPresentedViewController:(UIViewController *)presented presentingViewController:(UIViewController *)presenting sourceViewController:(UIViewController *)source
-{
-    Class presentationControllerClass;
-    
-    if([source isKindOfClass:[AAPLRootViewController class]] && [(AAPLRootViewController *)source presentationShouldBeAwesome])
-    {
+//- (UIPresentationController *)presentationControllerForPresentedViewController:(UIViewController *)presented presentingViewController:(UIViewController *)presenting sourceViewController:(UIViewController *)source
+//{
+//    Class presentationControllerClass;
+//    
+//    if([source isKindOfClass:[AAPLRootViewController class]] && [(AAPLRootViewController *)source presentationShouldBeAwesome])
+//    {
 //        presentationControllerClass = [AAPLCoolPresentationController class];
-    }
-    else
-    {
-        presentationControllerClass = [AAPLOverlayPresentationController class];
-    }
-    
-    return [[presentationControllerClass alloc] initWithPresentingViewController:presenting presentedViewController:presented];
-}
+//    }
+//    else
+//    {
+//        presentationControllerClass = [AAPLOverlayPresentationController class];
+//    }
+//    
+//    return [[presentationControllerClass alloc] initWithPresentingViewController:presenting presentedViewController:presented];
+//}
 
 - (AAPLOverlayAnimatedTransitioning *)animationController
 {
