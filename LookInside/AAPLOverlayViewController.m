@@ -37,7 +37,7 @@
 {
     [super viewDidLoad];
     
-    foregroundContentView = [[UIVisualEffectView alloc] initWithEffect:[UIVibrancyEffect effectForBlurEffect:blurEffect]];
+    foregroundContentView = [[UIVisualEffectView alloc] initWithEffect:[UIVibrancyEffect effectForBlurEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight]]];
     backgroundView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
 
     [self configureViews];
