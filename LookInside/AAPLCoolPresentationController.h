@@ -8,7 +8,8 @@
   
  */
 
-@import UIKit;
+//@import UIKit;
+#import <UIKit/UIKit.h>
 
 @interface AAPLCoolPresentationController : UIPresentationController
 {

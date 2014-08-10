@@ -15,7 +15,7 @@
 //#import "AAPLOverlayTransitioner.h"
 #import "AAPLCoolTransitioner.h"
 
-#define kNumberOfViews (37)
+#define kNumberOfViews (38)
 #define kViewsWide (1)
 #define kViewMargin (2.0)
 #define kCellReuseIdentifier @"CellReuseIdentifier"

@@ -28,7 +28,7 @@
     if(self)
     {
         [self setModalPresentationStyle:UIModalPresentationCustom];
-        [self setup];
+//        [self setup];
     }
     return self;
 }
@@ -37,10 +37,10 @@
 {
     [super viewDidLoad];
     
-    foregroundContentView = [[UIVisualEffectView alloc] initWithEffect:[UIVibrancyEffect effectForBlurEffect:blurEffect]];
-    backgroundView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-
-    [self configureViews];
+//    foregroundContentView = [[UIVisualEffectView alloc] initWithEffect:[UIVibrancyEffect effectForBlurEffect:blurEffect]];
+//    backgroundView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+//
+//    [self configureViews];
 }
 
 - (void)configureCIObjects {

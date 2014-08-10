@@ -114,7 +114,7 @@
 - (void)addViewsToDimmingView
 {
     [[self containerView] addSubview:transitionImageView];
-//    [transitionImageView addSubview:blurView];
+    [transitionImageView addSubview:blurView];
     [[self containerView] addSubview:transitionImageView2];
 }
 
