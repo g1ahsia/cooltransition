@@ -14,82 +14,48 @@
 
 - (instancetype)initWithPresentingViewController:(UIViewController *)presentingViewController presentedViewController:(UIViewController *)presentedViewController
 {
-    self = [super initWithPresentingViewController:presentingViewController presentedViewController:presentedViewController];
+    self = [super initWithPresentedViewController:presentedViewController presentingViewController:presentingViewController];
     if(self)
     {
         dimmingView = [[UIView alloc] init];
         [dimmingView setBackgroundColor:[[UIColor purpleColor] colorWithAlphaComponent:0.4]];
         
-        bigFlowerImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"BigFlower"]];
-        carlImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Carl"]];
-        [carlImageView setFrame:CGRectMake(0,0,500,245)];
-        
-        jaguarPrintImageH = [[UIImage imageNamed:@"JaguarH"] resizableImageWithCapInsets:UIEdgeInsetsZero resizingMode:UIImageResizingModeTile];
-        jaguarPrintImageV = [[UIImage imageNamed:@"JaguarV"] resizableImageWithCapInsets:UIEdgeInsetsZero resizingMode:UIImageResizingModeTile];
-
-        topJaguarPrintImageView = [[UIImageView alloc] initWithImage:jaguarPrintImageH];
-        bottomJaguarPrintImageView = [[UIImageView alloc] initWithImage:jaguarPrintImageH];
-
-        leftJaguarPrintImageView = [[UIImageView alloc] initWithImage:jaguarPrintImageV];
-        rightJaguarPrintImageView = [[UIImageView alloc] initWithImage:jaguarPrintImageV];
     }
     return self;
 }
 
-- (CGRect)frameOfPresentedViewInContainerView
-{
-    CGRect containerBounds = [[self containerView] bounds];
-    
-    CGRect presentedViewFrame = CGRectZero;
-    presentedViewFrame.size = CGSizeMake(300, 500);
-    presentedViewFrame.origin = CGPointMake(containerBounds.size.width / 2.0, containerBounds.size.height / 2.0);
-    presentedViewFrame.origin.x -= presentedViewFrame.size.width / 2.0;
-    presentedViewFrame.origin.y -= presentedViewFrame.size.height / 2.0;
-    
-    return presentedViewFrame;
-}
+//- (CGRect)frameOfPresentedViewInContainerView
+//{
+//    CGRect containerBounds = [[self containerView] bounds];
+//    
+//    CGRect presentedViewFrame = CGRectZero;
+//    presentedViewFrame.size = CGSizeMake(300, 500);
+//    presentedViewFrame.origin = CGPointMake(containerBounds.size.width / 2.0, containerBounds.size.height / 2.0);
+//    presentedViewFrame.origin.x -= presentedViewFrame.size.width / 2.0;
+//    presentedViewFrame.origin.y -= presentedViewFrame.size.height / 2.0;
+//    
+//    return presentedViewFrame;
+//}
 
 - (void)presentationTransitionWillBegin
 {
     NSLog(@"Presentation transition will begin");
-    [super presentationTransitionWillBegin];
-    
-    [self addViewsToDimmingView];
-
-    [dimmingView setAlpha:0.0];
-    
-    [[[self presentedViewController] transitionCoordinator] animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-        [dimmingView setAlpha:1.0];
-    } completion:nil];
-
-    [self moveJaguarPrintToPresentedPosition:NO];
-    
-    [UIView animateWithDuration:5.0 animations:^{
-        [self moveJaguarPrintToPresentedPosition:YES];
-    }];
+//    [super presentationTransitionWillBegin];
 }
 
-- (void)containerViewWillLayoutSubviews
-{
+- (void)presentationTransitionDidEnd:(BOOL)completed {
     
-    NSLog(@"container view will layout subviews");
-    [dimmingView setFrame:[[self containerView] bounds]];
+    _tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(presentedViewTapped:)];
+    [self.presentedViewController.view addGestureRecognizer:_tapGestureRecognizer];
+    
+    _screenEdgePanGestureRecognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(presentedViewEdgePanned:)];
+    _screenEdgePanGestureRecognizer.edges = UIRectEdgeLeft;
+    [self.presentedViewController.view addGestureRecognizer:_screenEdgePanGestureRecognizer];
+    
+//    _panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(presentedViewPanned:)];
+//    [self.presentedViewController.view addGestureRecognizer:_panGestureRecognizer];
 }
 
-- (void)containerViewDidLayoutSubviews
-{
-    NSLog(@"container view did layout subviews");
-    CGPoint bigFlowerCenter = [dimmingView frame].origin;
-    bigFlowerCenter.x += [[bigFlowerImageView image] size].width / 4.0;
-    bigFlowerCenter.y += [[bigFlowerImageView image] size].height / 4.0;
-    
-    [bigFlowerImageView setCenter:bigFlowerCenter];
-    
-    CGRect carlFrame = [carlImageView frame];
-    carlFrame.origin.y = [dimmingView bounds].size.height - carlFrame.size.height;
-    
-    [carlImageView setFrame:carlFrame];
-}
 
 - (void)dismissalTransitionWillBegin
 {
@@ -115,37 +81,49 @@
 //    [[self containerView] addSubview:dimmingView];
 }
 
-- (void)moveJaguarPrintToPresentedPosition:(BOOL)presentedPosition
+- (AAPLCoolTransitioningDelegate *)transitioningDelegate
 {
-    CGSize horizontalJaguarSize = [jaguarPrintImageH size];
-    CGSize verticalJaguarSize = [jaguarPrintImageV size];
-    CGRect frameOfView = [self frameOfPresentedViewInContainerView];
-    CGRect containerFrame = [[self containerView] frame];
-
-    CGRect topFrame, bottomFrame, leftFrame, rightFrame;
-    topFrame.size.height = bottomFrame.size.height = horizontalJaguarSize.height;
-    topFrame.size.width = bottomFrame.size.width = frameOfView.size.width;
-
-    leftFrame.size.width = rightFrame.size.width = verticalJaguarSize.width;
-    leftFrame.size.height = rightFrame.size.height = frameOfView.size.height;
-
-    topFrame.origin.x = frameOfView.origin.x;
-    bottomFrame.origin.x = frameOfView.origin.x;
-
-    leftFrame.origin.y = frameOfView.origin.y;
-    rightFrame.origin.y = frameOfView.origin.y;
-
-    CGRect frameToAlignAround = presentedPosition ? frameOfView : containerFrame;
-
-    topFrame.origin.y = CGRectGetMinY(frameToAlignAround) - horizontalJaguarSize.height;
-    bottomFrame.origin.y = CGRectGetMaxY(frameToAlignAround);
-    leftFrame.origin.x = CGRectGetMinX(frameToAlignAround) - verticalJaguarSize.width;
-    rightFrame.origin.x = CGRectGetMaxX(frameToAlignAround);
-    
-    [topJaguarPrintImageView setFrame:topFrame];
-    [bottomJaguarPrintImageView setFrame:bottomFrame];
-    [leftJaguarPrintImageView setFrame:leftFrame];
-    [rightJaguarPrintImageView setFrame:rightFrame];
+    return self.presentedViewController.transitioningDelegate;
 }
+
+#pragma mark - UIGestureRecognizers
+
+- (void)presentedViewTapped:(UITapGestureRecognizer *)gesture
+{
+    
+    NSLog(@"did tap");
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+}
+
+- (void)presentedViewEdgePanned:(UIScreenEdgePanGestureRecognizer*)gesture {
+    CGFloat progress = [gesture translationInView:self.presentedViewController.view].x / (self.presentedViewController.view.bounds.size.width * 1.0);
+    progress = MIN(1.0, MAX(0.0, progress));
+    
+    NSLog(@"progress is %f", progress);
+    
+    if (gesture.state == UIGestureRecognizerStateBegan) {
+        NSLog(@"did begin edge panning");
+        self.transitioningDelegate.interactionController = [[UIPercentDrivenInteractiveTransition alloc] init];
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+    }
+    else if (gesture.state == UIGestureRecognizerStateChanged) {
+        [self.transitioningDelegate.interactionController updateInteractiveTransition:progress];
+    }
+    else if (gesture.state == UIGestureRecognizerStateEnded) {
+        // Finish or cancel the interactive transition
+        if (progress > 0.5) {
+            [self.transitioningDelegate.interactionController finishInteractiveTransition];
+        }
+        else {
+            [self.transitioningDelegate.interactionController cancelInteractiveTransition];
+        }
+        
+        self.transitioningDelegate.interactionController = nil;
+    }
+
+    
+}
+
+
 
 @end

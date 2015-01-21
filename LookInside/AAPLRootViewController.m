@@ -70,8 +70,9 @@
     if([self presentationShouldBeAwesome])
     {
         transitioningDelegate = [[AAPLCoolTransitioningDelegate alloc] initWithReferenceImageView:cell.imageView];
-        NSLog(@"image view %f %f %f %f", cell.imageView.frame.origin.x, cell.imageView.frame.origin.y, cell.imageView.frame.size.width, cell.imageView.frame.size.height);
+        
         UIImage *thisImage = cell.imageView.image;
+        overlay.image = thisImage;
     }
     else
     {

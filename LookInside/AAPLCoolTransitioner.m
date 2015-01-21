@@ -24,7 +24,7 @@
 
 - (UIPresentationController *)presentationControllerForPresentedViewController:(UIViewController *)presented presentingViewController:(UIViewController *)presenting sourceViewController:(UIViewController *)source
 {
-    return [[AAPLCoolPresentationController alloc] initWithPresentingViewController:presenting presentedViewController:presented];
+    return [[AAPLCoolPresentationController alloc] initWithPresentedViewController:presented presentingViewController:presenting];
 }
 
 - (AAPLCoolAnimatedTransitioning *)animationController
@@ -47,6 +47,18 @@
     [animationController setIsPresentation:NO];
     
     return animationController;
+}
+
+- (id<UIViewControllerInteractiveTransitioning>)interactionControllerForPresentation:(id<UIViewControllerAnimatedTransitioning>)animator
+{
+    NSLog(@"return interaction controller for presentation");
+    return nil;
+}
+
+- (id<UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id<UIViewControllerAnimatedTransitioning>)animator
+{
+    NSLog(@"return interaction controller for dismissal");
+    return self.interactionController;
 }
 
 @end
@@ -111,8 +123,8 @@
 //    CGAffineTransform presentedTransform = CGAffineTransformIdentity;
 //    CGAffineTransform dismissedTransform = CGAffineTransformConcat(CGAffineTransformMakeScale(0.001, 0.001), CGAffineTransformMakeRotation(8 * M_PI));
     
-    CGFloat presentedTransform = 1;
-    CGFloat dismissedTransform = 0;
+//    CGFloat presentedTransform = 1;
+//    CGFloat dismissedTransform = 0;
     
 //    [animatingView setTransform:isPresentation ? dismissedTransform : presentedTransform];
     

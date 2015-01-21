@@ -37,4 +37,8 @@
 
 @property (nonatomic) AAPLPhotoCollectionViewCell *photoView;
 
+// interactive handling
+@property (nonatomic) UIImage *image;
+
+
 @end

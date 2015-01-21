@@ -15,7 +15,7 @@
 
 - (instancetype)initWithPresentingViewController:(UIViewController *)presentingViewController presentedViewController:(UIViewController *)presentedViewController
 {
-    self = [super initWithPresentingViewController:presentingViewController presentedViewController:presentedViewController];
+    self = [super initWithPresentedViewController:presentedViewController presentingViewController:presentingViewController];
     if(self)
     {
         [self prepareDimmingView];
@@ -44,6 +44,8 @@
         [dimmingView setAlpha:1.0];
     }
 }
+
+
 
 - (void)dismissalTransitionWillBegin
 {
@@ -115,5 +117,6 @@
     NSLog(@"dismissed");
 //    }
 }
+
 
 @end

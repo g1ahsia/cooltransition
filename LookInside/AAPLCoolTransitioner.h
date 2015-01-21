@@ -26,6 +26,8 @@
 
 @property (weak, nonatomic, readonly) UIImageView *referenceImageView;
 
+@property UIPercentDrivenInteractiveTransition *interactionController;
+
 // Initializes the receiver with the specified reference image view.
 - (id)initWithReferenceImageView:(UIImageView *)referenceImageView;
 

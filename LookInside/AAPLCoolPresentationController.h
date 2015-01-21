@@ -7,8 +7,10 @@
   AAPLCoolPresentationController header.
   
  */
+#import "AAPLCoolTransitioner.h"
 
 @import UIKit;
+
 
 @interface AAPLCoolPresentationController : UIPresentationController
 {
@@ -26,5 +28,11 @@
     
     UIView *dimmingView;
 }
+
+@property UITapGestureRecognizer *tapGestureRecognizer;
+@property UIPanGestureRecognizer *panGestureRecognizer;
+@property UIScreenEdgePanGestureRecognizer *screenEdgePanGestureRecognizer;
+@property (weak, readonly) AAPLCoolTransitioningDelegate *transitioningDelegate;
+
 
 @end
