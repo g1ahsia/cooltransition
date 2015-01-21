@@ -11,8 +11,6 @@
 #import "AAPLRootViewController.h"
 #import "AAPLPhotoCollectionViewCell.h"
 #import "AAPLOverlayViewController.h"
-
-#import "AAPLOverlayTransitioner.h"
 #import "AAPLCoolTransitioner.h"
 
 #define kNumberOfViews (37)
@@ -66,18 +64,12 @@
     AAPLPhotoCollectionViewCell *cell = (AAPLPhotoCollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
     
     AAPLOverlayViewController *overlay = [[AAPLOverlayViewController alloc] init];
+
+    transitioningDelegate = [[AAPLCoolTransitioningDelegate alloc] initWithReferenceImageView:cell.imageView];
     
-    if([self presentationShouldBeAwesome])
-    {
-        transitioningDelegate = [[AAPLCoolTransitioningDelegate alloc] initWithReferenceImageView:cell.imageView];
-        
-        UIImage *thisImage = cell.imageView.image;
-        overlay.image = thisImage;
-    }
-    else
-    {
-        transitioningDelegate = [[AAPLOverlayTransitioningDelegate alloc] init];
-    }
+    UIImage *thisImage = cell.imageView.image;
+    overlay.image = thisImage;
+
 
     [overlay setTransitioningDelegate:transitioningDelegate];
 
