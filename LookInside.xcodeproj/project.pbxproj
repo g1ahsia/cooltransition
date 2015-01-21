@@ -21,10 +21,6 @@
 		4FE4DBFF192DB16E003123D0 /* AAPLCoolPresentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE4DBFD192DB16E003123D0 /* AAPLCoolPresentationController.m */; };
 		4FF7B80C192AF9CC00EB2FE1 /* AAPLOverlayViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF7B80A192AF9CC00EB2FE1 /* AAPLOverlayViewController.h */; };
 		4FF7B80D192AF9CC00EB2FE1 /* AAPLOverlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF7B80B192AF9CC00EB2FE1 /* AAPLOverlayViewController.m */; };
-		4FF7B810192AFE3A00EB2FE1 /* AAPLOverlayTransitioner.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF7B80E192AFE3A00EB2FE1 /* AAPLOverlayTransitioner.h */; };
-		4FF7B811192AFE3A00EB2FE1 /* AAPLOverlayTransitioner.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF7B80F192AFE3A00EB2FE1 /* AAPLOverlayTransitioner.m */; };
-		4FF7B816192B089A00EB2FE1 /* AAPLOverlayPresentationController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF7B814192B089A00EB2FE1 /* AAPLOverlayPresentationController.h */; };
-		4FF7B817192B089A00EB2FE1 /* AAPLOverlayPresentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF7B815192B089A00EB2FE1 /* AAPLOverlayPresentationController.m */; };
 		B012104D193BF2DC00D839F0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B012104F193BF2DC00D839F0 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
@@ -57,10 +53,6 @@
 		4FE4DBFD192DB16E003123D0 /* AAPLCoolPresentationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAPLCoolPresentationController.m; sourceTree = "<group>"; };
 		4FF7B80A192AF9CC00EB2FE1 /* AAPLOverlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLOverlayViewController.h; sourceTree = "<group>"; };
 		4FF7B80B192AF9CC00EB2FE1 /* AAPLOverlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAPLOverlayViewController.m; sourceTree = "<group>"; };
-		4FF7B80E192AFE3A00EB2FE1 /* AAPLOverlayTransitioner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLOverlayTransitioner.h; sourceTree = "<group>"; };
-		4FF7B80F192AFE3A00EB2FE1 /* AAPLOverlayTransitioner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAPLOverlayTransitioner.m; sourceTree = "<group>"; };
-		4FF7B814192B089A00EB2FE1 /* AAPLOverlayPresentationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLOverlayPresentationController.h; sourceTree = "<group>"; };
-		4FF7B815192B089A00EB2FE1 /* AAPLOverlayPresentationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAPLOverlayPresentationController.m; sourceTree = "<group>"; };
 		B012104E193BF2DC00D839F0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -109,10 +101,6 @@
 				4FD205B1192ADEEC0050397C /* AAPLRootViewController.m */,
 				4FF7B80A192AF9CC00EB2FE1 /* AAPLOverlayViewController.h */,
 				4FF7B80B192AF9CC00EB2FE1 /* AAPLOverlayViewController.m */,
-				4FF7B80E192AFE3A00EB2FE1 /* AAPLOverlayTransitioner.h */,
-				4FF7B80F192AFE3A00EB2FE1 /* AAPLOverlayTransitioner.m */,
-				4FF7B814192B089A00EB2FE1 /* AAPLOverlayPresentationController.h */,
-				4FF7B815192B089A00EB2FE1 /* AAPLOverlayPresentationController.m */,
 				4F1148661934FCA000B9B539 /* AAPLCoolTransitioner.h */,
 				4F1148671934FCA000B9B539 /* AAPLCoolTransitioner.m */,
 				4FE4DBFC192DB16E003123D0 /* AAPLCoolPresentationController.h */,
@@ -142,12 +130,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4FF7B810192AFE3A00EB2FE1 /* AAPLOverlayTransitioner.h in Headers */,
 				4FD20597192ADEA80050397C /* AAPLAppDelegate.h in Headers */,
 				4FF7B80C192AF9CC00EB2FE1 /* AAPLOverlayViewController.h in Headers */,
 				4FE4DBFE192DB16E003123D0 /* AAPLCoolPresentationController.h in Headers */,
 				4FD205B2192ADEEC0050397C /* AAPLRootViewController.h in Headers */,
-				4FF7B816192B089A00EB2FE1 /* AAPLOverlayPresentationController.h in Headers */,
 				4F63DAB21932DC1F00E7AD9E /* AAPLPhotoCollectionViewCell.h in Headers */,
 				4F1148681934FCA000B9B539 /* AAPLCoolTransitioner.h in Headers */,
 			);
@@ -249,10 +235,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				4FF7B80D192AF9CC00EB2FE1 /* AAPLOverlayViewController.m in Sources */,
-				4FF7B817192B089A00EB2FE1 /* AAPLOverlayPresentationController.m in Sources */,
 				4FD20599192ADEA90050397C /* AAPLAppDelegate.m in Sources */,
 				4FE4DBFF192DB16E003123D0 /* AAPLCoolPresentationController.m in Sources */,
-				4FF7B811192AFE3A00EB2FE1 /* AAPLOverlayTransitioner.m in Sources */,
 				4F1148691934FCA000B9B539 /* AAPLCoolTransitioner.m in Sources */,
 				4F63DAB31932DC1F00E7AD9E /* AAPLPhotoCollectionViewCell.m in Sources */,
 				4FD20595192ADEA80050397C /* main.m in Sources */,

@@ -14,25 +14,18 @@
 
 @interface AAPLCoolPresentationController : UIPresentationController
 {
-    UIImageView *bigFlowerImageView;
-    UIImageView *carlImageView;
-
-    UIImage *jaguarPrintImageH;
-    UIImage *jaguarPrintImageV;
-
-    UIImageView *topJaguarPrintImageView;
-    UIImageView *bottomJaguarPrintImageView;
-
-    UIImageView *leftJaguarPrintImageView;
-    UIImageView *rightJaguarPrintImageView;
-    
-    UIView *dimmingView;
+    UIImageView *transitionImageView;
+    CGRect originalFrame;
 }
 
 @property UITapGestureRecognizer *tapGestureRecognizer;
 @property UIPanGestureRecognizer *panGestureRecognizer;
 @property UIScreenEdgePanGestureRecognizer *screenEdgePanGestureRecognizer;
 @property (weak, readonly) AAPLCoolTransitioningDelegate *transitioningDelegate;
+
+@property (nonatomic, readwrite) UIImageView *referenceImageView;
+
+- (instancetype)initWithPresentingViewController:(UIViewController *)presentingViewController presentedViewController:(UIViewController *)presentedViewController referenceImageView:(UIImageView *)referenceImageView;
 
 
 @end

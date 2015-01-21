@@ -24,7 +24,7 @@
 
 - (UIPresentationController *)presentationControllerForPresentedViewController:(UIViewController *)presented presentingViewController:(UIViewController *)presenting sourceViewController:(UIViewController *)source
 {
-    return [[AAPLCoolPresentationController alloc] initWithPresentedViewController:presented presentingViewController:presenting];
+    return [[AAPLCoolPresentationController alloc] initWithPresentingViewController:presenting presentedViewController:presented referenceImageView:_referenceImageView];
 }
 
 - (AAPLCoolAnimatedTransitioning *)animationController
@@ -99,7 +99,7 @@
     transitionView.clipsToBounds = YES;
 
     
-    [containerView addSubview:transitionView];
+//    [containerView addSubview:transitionView];
     
 
 //
@@ -152,7 +152,7 @@
                          if(isPresentation)
                          {
                              [containerView addSubview:toView];
-                             [transitionView removeFromSuperview];
+//                             [transitionView removeFromSuperview];
                          }
                          
                          [transitionContext completeTransition:YES];

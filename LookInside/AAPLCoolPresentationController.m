@@ -12,14 +12,21 @@
 
 @implementation AAPLCoolPresentationController
 
+
+
 - (instancetype)initWithPresentingViewController:(UIViewController *)presentingViewController presentedViewController:(UIViewController *)presentedViewController
 {
     self = [super initWithPresentedViewController:presentedViewController presentingViewController:presentingViewController];
     if(self)
-    {
-        dimmingView = [[UIView alloc] init];
-        [dimmingView setBackgroundColor:[[UIColor purpleColor] colorWithAlphaComponent:0.4]];
-        
+    {        
+    }
+    return self;
+}
+
+- (instancetype)initWithPresentingViewController:(UIViewController *)presentingViewController presentedViewController:(UIViewController *)presentedViewController referenceImageView:(UIImageView *)referenceImageView {
+    self = [super initWithPresentedViewController:presentedViewController presentingViewController:presentingViewController];
+    if (self) {
+        _referenceImageView = referenceImageView;
     }
     return self;
 }
@@ -41,6 +48,25 @@
 {
     NSLog(@"Presentation transition will begin");
 //    [super presentationTransitionWillBegin];
+    transitionImageView = [[UIImageView alloc] initWithImage:_referenceImageView.image];
+    transitionImageView.contentMode = _referenceImageView.contentMode;
+    transitionImageView.clipsToBounds = YES;
+    
+    originalFrame = [[self containerView] convertRect:self.referenceImageView.bounds
+                                             fromView:self.referenceImageView];
+    
+    
+    [[self containerView] addSubview:transitionImageView];
+    
+    [transitionImageView setFrame:originalFrame];
+    
+    [[[self presentedViewController] transitionCoordinator] animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        
+        [transitionImageView setFrame:[self containerView].frame];
+        
+    } completion:^(id<UIViewControllerTransitionCoordinatorContext> context){
+        
+    }];
 }
 
 - (void)presentationTransitionDidEnd:(BOOL)completed {
@@ -59,26 +85,13 @@
 
 - (void)dismissalTransitionWillBegin
 {
-    NSLog(@"dismissal transition will begin");
-    [super dismissalTransitionWillBegin];
-
     [[[self presentedViewController] transitionCoordinator] animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-        [dimmingView setAlpha:0.0];
-} completion:nil];
-}
-
-- (void)addViewsToDimmingView
-{
-    [dimmingView addSubview:bigFlowerImageView];
-    [dimmingView addSubview:carlImageView];
-
-    [dimmingView addSubview:topJaguarPrintImageView];
-    [dimmingView addSubview:bottomJaguarPrintImageView];
-
-    [dimmingView addSubview:leftJaguarPrintImageView];
-    [dimmingView addSubview:rightJaguarPrintImageView];
-    
-//    [[self containerView] addSubview:dimmingView];
+        
+        [transitionImageView setFrame:originalFrame];
+        
+    } completion:^(id<UIViewControllerTransitionCoordinatorContext> context){
+        
+    }];
 }
 
 - (AAPLCoolTransitioningDelegate *)transitioningDelegate

@@ -67,17 +67,10 @@
     
     AAPLOverlayViewController *overlay = [[AAPLOverlayViewController alloc] init];
     
-    if([self presentationShouldBeAwesome])
-    {
-        transitioningDelegate = [[AAPLCoolTransitioningDelegate alloc] initWithReferenceImageView:cell.imageView];
-        
-        UIImage *thisImage = cell.imageView.image;
-        overlay.image = thisImage;
-    }
-    else
-    {
-        transitioningDelegate = [[AAPLOverlayTransitioningDelegate alloc] init];
-    }
+    transitioningDelegate = [[AAPLCoolTransitioningDelegate alloc] initWithReferenceImageView:cell.imageView];
+    
+    UIImage *thisImage = cell.imageView.image;
+    overlay.image = thisImage;
 
     [overlay setTransitioningDelegate:transitioningDelegate];
 
