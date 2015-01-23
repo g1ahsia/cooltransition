@@ -155,7 +155,8 @@
 //                             [transitionView removeFromSuperview];
                          }
                          
-                         [transitionContext completeTransition:YES];
+//                         [transitionContext completeTransition:YES];
+                         [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
                      }];
 }
 
