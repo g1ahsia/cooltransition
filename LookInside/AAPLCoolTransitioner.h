@@ -10,10 +10,12 @@
 
 @import UIKit;
 
-@interface AAPLCoolAnimatedTransitioning : NSObject <UIViewControllerAnimatedTransitioning>
+@interface AAPLCoolAnimatedTransitioning : NSObject <UIViewControllerAnimatedTransitioning> 
 @property (nonatomic) BOOL isPresentation;
 
 @property (weak, nonatomic, readonly) UIImageView *referenceImageView;
+
+@property UITapGestureRecognizer *tapGestureRecognizer;
 
 // Initializes the receiver with the specified reference image view.
 - (id)initWithReferenceImageView:(UIImageView *)referenceImageView;
