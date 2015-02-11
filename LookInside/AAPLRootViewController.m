@@ -93,7 +93,7 @@
     CGFloat itemWidth = size.width / kViewsWide;
     itemWidth -= kViewMargin;
     
-    [(UICollectionViewFlowLayout *)[[self collectionView] collectionViewLayout] setItemSize:CGSizeMake(itemWidth, itemWidth)];
+    [(UICollectionViewFlowLayout *)[[self collectionView] collectionViewLayout] setItemSize:CGSizeMake(itemWidth, 30)];
     [[self collectionViewLayout] invalidateLayout];
 }
 

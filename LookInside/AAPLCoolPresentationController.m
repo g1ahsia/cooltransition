@@ -112,15 +112,17 @@
     CGFloat progress = [gesture translationInView:self.presentedViewController.view].x / (self.presentedViewController.view.bounds.size.width * 1.0);
     progress = MIN(1.0, MAX(0.0, progress));
     
-    NSLog(@"progress is %f", progress);
+//    NSLog(@"progress is %f", progress);
     
     if (gesture.state == UIGestureRecognizerStateBegan) {
         NSLog(@"did begin edge panning");
-        self.transitioningDelegate.interactionController = [[UIPercentDrivenInteractiveTransition alloc] init];
+//        self.transitioningDelegate.interactionController = [[UIPercentDrivenInteractiveTransition alloc] init];
+        self.transitioningDelegate.interactionController = [[DragToDismissTransitioning alloc] initWithReferenceImageView:_referenceImageView];
         [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
     }
     else if (gesture.state == UIGestureRecognizerStateChanged) {
         [self.transitioningDelegate.interactionController updateInteractiveTransition:progress];
+                
     }
     else if (gesture.state == UIGestureRecognizerStateEnded) {
         // Finish or cancel the interactive transition

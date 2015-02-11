@@ -17,9 +17,29 @@
 
 @property UITapGestureRecognizer *tapGestureRecognizer;
 
-// Initializes the receiver with the specified reference image view.
 - (id)initWithReferenceImageView:(UIImageView *)referenceImageView;
 
+@end
+
+@interface DragToDismissTransitioning : NSObject <UIViewControllerInteractiveTransitioning>
+
+@property (weak, nonatomic, readonly) UIImageView *referenceImageView;
+
+@property id <UIViewControllerContextTransitioning> context;
+
+@property UIView *containerView;
+
+@property UIView *dismissView;
+
+@property UIImageView *transitionView;
+
+- (id)initWithReferenceImageView:(UIImageView *)referenceImageView;
+
+- (void)updateInteractiveTransition:(CGFloat)percentComplete;
+
+- (void)finishInteractiveTransition;
+
+- (void)cancelInteractiveTransition;
 
 @end
 
@@ -28,7 +48,9 @@
 
 @property (weak, nonatomic, readonly) UIImageView *referenceImageView;
 
-@property UIPercentDrivenInteractiveTransition *interactionController;
+//@property UIPercentDrivenInteractiveTransition *interactionController;
+
+@property DragToDismissTransitioning *interactionController;
 
 // Initializes the receiver with the specified reference image view.
 - (id)initWithReferenceImageView:(UIImageView *)referenceImageView;
