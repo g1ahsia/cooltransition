@@ -210,7 +210,6 @@
     self.transitionView.contentMode = UIViewContentModeScaleAspectFill;
     self.transitionView.clipsToBounds = YES;
 
-    
     self.containerView = [transitionContext containerView];
 
 //    [containerView addSubview:toVC.view];
@@ -220,42 +219,33 @@
     
     self.dismissView = fromVC.view;
     self.dismissView.alpha = 0.0;
-    self.transitionView.layer.borderColor = [[UIColor redColor]CGColor];
-    self.transitionView.layer.borderWidth = 2.0;
 }
 
 - (void)updateInteractiveTransition:(CGFloat)percentComplete {
     UIViewController *toVC = [self.context viewControllerForKey:UITransitionContextToViewControllerKey];
-    CGRect transitionFinalFramePresent = [self.context finalFrameForViewController:toVC];
-    CGRect transitionFinalFrameDismiss = [self.context.containerView convertRect:self.referenceImageView.bounds
+    CGRect transitionInitialFrame = [self.context finalFrameForViewController:toVC];
+    CGRect transitionFinalFrame = [self.context.containerView convertRect:self.referenceImageView.bounds
                                                                              fromView:self.referenceImageView];
-    NSLog(@"percentComplete %f", percentComplete);
-
-    
-//    CGAffineTransform dismissedTransform = CGAffineTransformConcat(CGAffineTransformMakeScale(1 - percentComplete, 1 - percentComplete), CGAffineTransformMakeRotation(8 * M_PI));
-    
-    
-    CGAffineTransform dismissedTransform = [self translatedAndScaledTransformUsingViewRect:transitionFinalFrameDismiss fromRect:transitionFinalFramePresent percentage:percentComplete];
-    
-//    CGAffineTransform dismissedTransform = [self translateFromRect:transitionFinalFramePresent toRect:transitionFinalFrameDismiss];
-    
-    [self.transitionView setTransform:dismissedTransform];
-    self.transitionView.image = [self scaleImage:self.transitionView.image toSize:CGSizeMake(self.transitionView.frame.size.width, self.transitionView.frame.size.height)];
-    //    [self.dismissView setFrame:transitionFinalFrameDismiss];
+    CGRect transformedRect = [self transformRectFromRect:transitionInitialFrame toRect:transitionFinalFrame percentage:percentComplete];
+    [self.transitionView setFrame:transformedRect];
     [self.context updateInteractiveTransition:percentComplete];
     
 }
 
 - (void)finishInteractiveTransition {
-    [self.context finishInteractiveTransition];
-    [self.context completeTransition:YES];
+    CGRect transitionFinalFrame = [self.context.containerView convertRect:self.referenceImageView.bounds
+                                                                 fromView:self.referenceImageView];
+    [UIView animateWithDuration:0.3 animations:^{
+        [self.transitionView setFrame:transitionFinalFrame];
+    } completion:^(BOOL finished) {
+        [self.context finishInteractiveTransition];
+        [self.context completeTransition:YES];
+    }];
 }
 
 - (void)cancelInteractiveTransition {
-    UIViewController *toVC = [self.context viewControllerForKey:UITransitionContextToViewControllerKey];
     UIViewController *fromVC = [self.context viewControllerForKey:UITransitionContextFromViewControllerKey];
     CGRect initialFrame = [self.context initialFrameForViewController:fromVC];
-    CGRect currentFrame = self.transitionView.frame;
     
 //    UIDynamicAnimator *animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.context.containerView];
 //    
@@ -268,7 +258,7 @@
 //    
 //    [animator addBehavior:gravity];
     
-    [UIView animateWithDuration:0.6 animations:^{
+    [UIView animateWithDuration:0.3 animations:^{
         [self.transitionView setFrame:initialFrame];
     } completion:^(BOOL finished) {
         self.dismissView.alpha = 1.0;
@@ -278,45 +268,8 @@
     }];
 }
 
-- (CGAffineTransform)translatedAndScaledTransformUsingViewRect:(CGRect)toRect fromRect:(CGRect)fromRect percentage:(CGFloat)percentageComplete {
-    
-    CGFloat percent = 1.0 - percentageComplete;
-    
-    CGSize scales = CGSizeMake(toRect.size.width/fromRect.size.width, toRect.size.height/fromRect.size.height);
-    
-    NSLog(@"scale is %f %f", scales.width, scales.height);
-    
-//    scales = CGSizeMake(scales.width * ( 1 - percentage), scales.height * (1 - percentage));
-    CGPoint offset = CGPointMake(CGRectGetMidX(toRect) - CGRectGetMidX(fromRect), CGRectGetMidY(toRect) - CGRectGetMidY(fromRect));
-    
-    NSLog(@"offset is %f %f", offset.x, offset.y);
-    
-//    return CGAffineTransformMake(scales.width, 0, 0, scales.height, offset.x, offset.y);
-        return CGAffineTransformMake(percent * (1-scales.width) + scales.width, 0, 0, percent * (1-scales.height) + scales.height, percent * (-offset.x) + offset.x, percent * (-offset.y) + offset.y);
-    
-}
-
-- (UIImage*)scaleImage:(UIImage*)image toSize:(CGSize)newSize {
-    CGSize scaledSize = newSize;
-    float scaleFactor = 1.0;
-    if( image.size.width > image.size.height ) {
-        scaleFactor = image.size.width / image.size.height;
-        scaledSize.width = newSize.width;
-        scaledSize.height = newSize.height / scaleFactor;
-    }
-    else {
-        scaleFactor = image.size.height / image.size.width;
-        scaledSize.height = newSize.height;
-        scaledSize.width = newSize.width / scaleFactor;
-    }
-    
-    UIGraphicsBeginImageContextWithOptions( scaledSize, NO, 0.0 );
-    CGRect scaledImageRect = CGRectMake( 0.0, 0.0, scaledSize.width, scaledSize.height );
-    [image drawInRect:scaledImageRect];
-    UIImage* scaledImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    return scaledImage;
+- (CGRect)transformRectFromRect:(CGRect)fromRect toRect:(CGRect)toRect percentage:(CGFloat)percentage {
+    return CGRectMake((toRect.origin.x - fromRect.origin.x) * percentage + fromRect.origin.x , (toRect.origin.y - fromRect.origin.y) * percentage + fromRect.origin.y, (toRect.size.width - fromRect.size.width) * percentage + fromRect.size.width, (toRect.size.height - fromRect.size.height) * percentage + fromRect.size.height);
 }
 
 @end
